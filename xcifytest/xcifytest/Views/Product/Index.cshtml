@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        LoadProduct();
+    });
+
+    function LoadProduct() {
+        var BindProduct = "";
+        $.ajax({
+            async: true,
+            type: 'GET',
+            url: '/Product/GetAllProduct',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                if (response.success) {
+                    $.each(response.data,
+                        function (index, value) {
+                            BindProduct += '<tr><td>' + value.Name + '</td><td>' +
+                                '<tr><td>' + value.Price + '</td></tr>';
+                        });
+                    $("#tableProduct").append(BindProduct);
+                }
+            },
+            error: function () {
+                alert('There is problem load Product');
+            }
+
+        });
+    }
+</script>
+
+<table style="width:100%" class="table-bordered" id="tableProduct">
+
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+    </thead>
+
+</table>
